@@ -41,7 +41,7 @@ const init = async () => {
 
   app.get("/video/:filename", (req, res) => {
     const { filename } = req.params
-    const videoFile = fs.readFileSync(`./public/uploads/${filename}`)
+    const videoFile = readFileSync(`./public/uploads/${filename}`)
     var encoded = new Buffer(videoFile).toString('base64')
     res.json({ video: encoded })
   });
@@ -49,7 +49,7 @@ const init = async () => {
   app.get("/api/getEntries", async (req, res) => {
     const data = await entries.find({}).toArray();
     data.map((entry) => {
-      const image = readFileSync(`./public/uploads/${entry.filename}.webp`)
+      const image = fs.readFileSync(`./public/uploads/${entry.filename}.webp`)
       const base64 = `data:image/webp;base64,${image.toString('base64')}`
       return Object.assign(entry, { image: base64 })
 
