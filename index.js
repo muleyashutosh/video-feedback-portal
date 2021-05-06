@@ -1,7 +1,7 @@
 import express from "express";
 import multer from "multer";
 import cors from "cors";
-import { writeFile, statSync, createReadStream, readFileSync } from 'fs';
+import { writeFile, readFileSync } from 'fs';
 import mongo from 'mongodb';
 const { MongoClient } = mongo;
 import bcrypt from 'bcrypt';
@@ -49,7 +49,7 @@ const init = async () => {
   app.get("/api/getEntries", async (req, res) => {
     const data = await entries.find({}).toArray();
     data.map((entry) => {
-      const image = fs.readFileSync(`./public/uploads/${entry.filename}.webp`)
+      const image = readFileSync(`./public/uploads/${entry.filename}.webp`)
       const base64 = `data:image/webp;base64,${image.toString('base64')}`
       return Object.assign(entry, { image: base64 })
 
